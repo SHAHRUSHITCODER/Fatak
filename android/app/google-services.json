@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "421857009512",
+    "project_id": "fatak-c3f73",
+    "storage_bucket": "fatak-c3f73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421857009512:android:a7fa3d27733657f53480dd",
+        "android_client_info": {
+          "package_name": "com.fatak2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421857009512-8nb1gb3bsgl2v5i2584ndmk6elioihsd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fatak2",
+            "certificate_hash": "906f7ae05319d9f772c2a24010dcded1abfec7c6"
+          }
+        },
+        {
+          "client_id": "421857009512-p9aguiennlb6u0q1l93959otfclbvniv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1-3OOTHsqBsRMYgKKBxNtP1GNGwaZOrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421857009512-p9aguiennlb6u0q1l93959otfclbvniv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
