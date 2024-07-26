@@ -18,26 +18,26 @@ const AmulTaaza = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isProductInfoVisible, setIsProductInfoVisible] = useState(false);
   const flatListRef = useRef(null);
-  const [quantityTaaza, setQuantityTaaza] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [total, setTotal] = useState(0);
   const [discTotal, setdiscTotal] = useState(0);
   const [selectedDays, setSelectedDays] = useState([null]);
   const [selectedPlan, setSelectedPlan] = useState([]);
 
 
-  const storeQuantityTaaza = async (quantityTaaza) => {
+  const storeQuantity = async (quantity) => {
     try {
-      await AsyncStorage.setItem('@quantityTaaza', quantityTaaza.toString());
+      await AsyncStorage.setItem('@quantity', quantity.toString());
     } catch (e) {
       console.error('Failed to save the quantity to the storage', e);
     }
   };
 
-  const getQuantityTaaza = async () => {
+  const getQuantity = async () => {
     try {
-      const value = await AsyncStorage.getItem('@quantityTaaza');
+      const value = await AsyncStorage.getItem('@quantity');
       if (value !== null) {
-        setQuantityTaaza(parseInt(value, 10));
+        setQuantity(parseInt(value, 10));
       }
     } catch (e) {
       console.error('Failed to fetch the quantity from storage', e);
@@ -45,18 +45,18 @@ const AmulTaaza = () => {
   };
 
   const incrementQuantity = () => {
-    if (quantityTaaza < 5) {
-      const newQuantity = quantityTaaza + 1;
-      setQuantityTaaza(newQuantity);
-      storeQuantityTaaza(newQuantity);
+    if (quantity < 5) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      storeQuantity(newQuantity);
     }
   };
 
   const decrementQuantity = () => {
-    if (quantityTaaza > 0) {
-      const newQuantity = quantityTaaza - 1;
-      setQuantityTaaza(newQuantity);
-      storeQuantityTaaza(newQuantity);
+    if (quantity > 0) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      storeQuantity(newQuantity);
     }
   };
   useEffect(() => {
@@ -91,25 +91,24 @@ const AmulTaaza = () => {
       if (currentUser) {
         // Log the values to debug which one is undefined
         console.log('userName:', userName);
-        console.log('quantity:', quantityTaaza);
+        console.log('quantity:', quantity);
         console.log('selectedDays:', selectedDays);
         console.log('selectedPlan:', selectedPlan);
   
-        if (quantityTaaza !== undefined && selectedDays !== undefined && selectedPlan !== undefined) {
+        if (quantity !== undefined && selectedDays !== undefined && selectedPlan !== undefined) {
           const orderRef = firebase.firestore().collection('ordersAmulTaaza').doc(currentUser.uid);
           const userRef= firebase.firestore().collection('users').doc(currentUser.uid);
           await userRef.update({
-            taazaquantity: quantityTaaza,
+            taazaquantity: quantity,
             taazaselectedDays: selectedDays,
             taazaselectedPlan: selectedPlan,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           await orderRef.set({
             name:userName,
-            quantityTaaza: quantityTaaza,
+            quantity: quantity,
             selectedDays: selectedDays,
             selectedPlan: selectedPlan,
-            taazaTotal:discTotal,
             userId: currentUser.uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -127,16 +126,16 @@ const AmulTaaza = () => {
   
   
   useEffect(() => {
-    getQuantityTaaza();
+    getQuantity();
   }, []);
 
   useEffect(() => {
-    setTotal(quantityTaaza * 28);
-  }, [quantityTaaza]);
+    setTotal(quantity * 28);
+  }, [quantity]);
 
   useEffect(() => {
-    setdiscTotal(quantityTaaza * 27.5);
-  }, [quantityTaaza]);
+    setdiscTotal(quantity * 27.5);
+  }, [quantity]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -366,7 +365,7 @@ const AmulTaaza = () => {
               <TouchableOpacity style={styles.controlButton} onPress={decrementQuantity}>
                 <Text style={styles.controlButtonText}>-</Text>
               </TouchableOpacity>
-              <Text style={styles.quantityText}>{quantityTaaza}</Text>
+              <Text style={styles.quantityText}>{quantity}</Text>
               <TouchableOpacity style={styles.controlButton} onPress={incrementQuantity}>
                 <Text style={styles.controlButtonText}>+</Text>
               </TouchableOpacity>

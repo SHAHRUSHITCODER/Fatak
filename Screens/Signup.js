@@ -41,6 +41,7 @@ const Signup = () => {
       const response = await firebase.auth().createUserWithEmailAndPassword(email, password);
       const { user } = response;
       // Store additional user data like name, dob, address in Firestore
+      
       await firestore().collection('users').doc(user.uid).set({
         name,
         phoneNumber,
