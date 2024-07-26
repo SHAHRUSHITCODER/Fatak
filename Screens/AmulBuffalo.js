@@ -10,7 +10,7 @@ const planType=['Daily','Weekly','Monthly'];
 
 const daysOfWeekMain = ['Sun', 'Mo', 'Tue', 'We', 'Thu', 'Fri', 'Sat'];
 
-const AmulTaaza = () => {
+const AmulBuffalo = () => {
   const [data, setData] = useState(null);
   const [userName,setUserName]=useState('');
   const [loading, setLoading] = useState(true);
@@ -18,26 +18,26 @@ const AmulTaaza = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isProductInfoVisible, setIsProductInfoVisible] = useState(false);
   const flatListRef = useRef(null);
-  const [quantityTaaza, setQuantityTaaza] = useState(0);
+  const [quantityBuffalo, setQuantityBuffalo] = useState(0);
   const [total, setTotal] = useState(0);
   const [discTotal, setdiscTotal] = useState(0);
   const [selectedDays, setSelectedDays] = useState([null]);
   const [selectedPlan, setSelectedPlan] = useState([]);
 
 
-  const storeQuantityTaaza = async (quantityTaaza) => {
+  const storeQuantityBuffalo = async (quantityBuffalo) => {
     try {
-      await AsyncStorage.setItem('@quantityTaaza', quantityTaaza.toString());
+      await AsyncStorage.setItem('@quantityBuffalo', quantityBuffalo.toString());
     } catch (e) {
       console.error('Failed to save the quantity to the storage', e);
     }
   };
 
-  const getQuantityTaaza = async () => {
+  const getQuantityBuffalo = async () => {
     try {
-      const value = await AsyncStorage.getItem('@quantityTaaza');
+      const value = await AsyncStorage.getItem('@quantityBuffalo');
       if (value !== null) {
-        setQuantityTaaza(parseInt(value, 10));
+        setQuantityBuffalo(parseInt(value, 10));
       }
     } catch (e) {
       console.error('Failed to fetch the quantity from storage', e);
@@ -45,18 +45,18 @@ const AmulTaaza = () => {
   };
 
   const incrementQuantity = () => {
-    if (quantityTaaza < 5) {
-      const newQuantity = quantityTaaza + 1;
-      setQuantityTaaza(newQuantity);
-      storeQuantityTaaza(newQuantity);
+    if (quantityBuffalo < 5) {
+      const newQuantity = quantityBuffalo + 1;
+      setQuantityBuffalo(newQuantity);
+      storeQuantityBuffalo(newQuantity);
     }
   };
 
   const decrementQuantity = () => {
-    if (quantityTaaza > 0) {
-      const newQuantity = quantityTaaza - 1;
-      setQuantityTaaza(newQuantity);
-      storeQuantityTaaza(newQuantity);
+    if (quantityBuffalo > 0) {
+      const newQuantity = quantityBuffalo - 1;
+      setQuantityBuffalo(newQuantity);
+      storeQuantityBuffalo(newQuantity);
     }
   };
   useEffect(() => {
@@ -91,25 +91,25 @@ const AmulTaaza = () => {
       if (currentUser) {
         // Log the values to debug which one is undefined
         console.log('userName:', userName);
-        console.log('quantity:', quantityTaaza);
+        console.log('quantity:', quantityBuffalo);
         console.log('selectedDays:', selectedDays);
         console.log('selectedPlan:', selectedPlan);
   
-        if (quantityTaaza !== undefined && selectedDays !== undefined && selectedPlan !== undefined) {
-          const orderRef = firebase.firestore().collection('ordersAmulTaaza').doc(currentUser.uid);
+        if (quantityBuffalo !== undefined && selectedDays !== undefined && selectedPlan !== undefined) {
+          const orderRef = firebase.firestore().collection('ordersAmulBuffalo').doc(currentUser.uid);
           const userRef= firebase.firestore().collection('users').doc(currentUser.uid);
           await userRef.update({
-            taazaquantity: quantityTaaza,
-            taazaselectedDays: selectedDays,
-            taazaselectedPlan: selectedPlan,
+            Buffaloquantity: quantityBuffalo,
+            BuffaloselectedDays: selectedDays,
+            BuffaloselectedPlan: selectedPlan,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           await orderRef.set({
             name:userName,
-            quantityTaaza: quantityTaaza,
+            quantityBuffalo: quantityBuffalo,
+            totalBuffalo:discTotal,
             selectedDays: selectedDays,
             selectedPlan: selectedPlan,
-            taazaTotal:discTotal,
             userId: currentUser.uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -127,23 +127,23 @@ const AmulTaaza = () => {
   
   
   useEffect(() => {
-    getQuantityTaaza();
+    getQuantityBuffalo();
   }, []);
 
   useEffect(() => {
-    setTotal(quantityTaaza * 28);
-  }, [quantityTaaza]);
+    setTotal(quantityBuffalo * 72);
+  }, [quantityBuffalo]);
 
   useEffect(() => {
-    setdiscTotal(quantityTaaza * 27.5);
-  }, [quantityTaaza]);
+    setdiscTotal(quantityBuffalo * 71);
+  }, [quantityBuffalo]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const documentSnapshot = await firestore()
-          .collection('AmulTaaza')
-          .doc('myMNW2ozfPobu70R3KA5')
+          .collection('AmulBuffalo')
+          .doc('G6Zo4zLUUq8sI7YnZnuM')
           .get();
 
         if (documentSnapshot.exists) {
@@ -156,10 +156,9 @@ const AmulTaaza = () => {
       }
 
       const images = [
-        'AmulTaaza-removebg-preview (1).png',
-        'AmulTaazaBack1.png',
-        'AmulTaazaEnergy.png',
-        'AmulTaazaInstructions.png',
+        'AmulBuffalo2-removebg-preview.png',
+        'AmulBuffaloBack.png',
+        'AmulBuffaloInstructions.png',
       ];
 
       const fetchImageUrls = images.map(async (imageName) => {
@@ -349,13 +348,13 @@ const AmulTaaza = () => {
         )}
         <View style={styles.Highlight}>
           <Text style={{ color: 'black', fontWeight: '700', fontSize: 17, margin: 4 }}>Highlights</Text>
-          <Text style={styles.HighlightText}>Toned Milk</Text>
+          <Text style={styles.HighlightText}>Full Cream Milk , A2</Text>
         </View>
         <View style={styles.horizontalLine} />
 
         <View style={styles.MainQuantityHeader}>
           <View style={styles.QuantityHeaderContainer}>
-            <Text style={styles.QuantityHeader}>Amul Tazza X 500mL</Text>
+            <Text style={styles.QuantityHeader}>Amul Buffalo X 1L</Text>
           </View>
           <View style={styles.QuantityConatiner}>
             <View style={styles.priceContainerMain}>
@@ -366,22 +365,22 @@ const AmulTaaza = () => {
               <TouchableOpacity style={styles.controlButton} onPress={decrementQuantity}>
                 <Text style={styles.controlButtonText}>-</Text>
               </TouchableOpacity>
-              <Text style={styles.quantityText}>{quantityTaaza}</Text>
+              <Text style={styles.quantityText}>{quantityBuffalo}</Text>
               <TouchableOpacity style={styles.controlButton} onPress={incrementQuantity}>
                 <Text style={styles.controlButtonText}>+</Text>
               </TouchableOpacity>
             </View>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <Text>Total:</Text>
+            <Text style={{color:'grey'}}>Total:</Text>
             <View style={{ minWidth: 50 }}>
-              <Text>{total}</Text>
+              <Text style={{color:'grey'}}>{total}</Text>
             </View>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <Text>Discount:</Text>
+            <Text style={{color:'grey'}}>Discount:</Text>
             <View style={{ minWidth: 50 }}>
-              <Text>+ 2%</Text>
+              <Text style={{color:'grey'}}>+ 2%</Text>
             </View>
           </View>
         </View>
@@ -486,6 +485,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
+    color:'grey',
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',       // Ensure text is centered horizontally
@@ -640,6 +640,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color:'grey',
+
 
   },
   dayButton: {
@@ -658,12 +660,14 @@ const styles = StyleSheet.create({
   },
   dayButtonText: {
     fontSize: 16,
+    color:'grey',
     
   },
   planTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color:'grey',
   },
   planContainer: {
     margin: 10,
@@ -690,6 +694,8 @@ const styles = StyleSheet.create({
   planButtonText: {
     fontSize: 16,
     textAlign: 'center',
+    color:'grey',
+
   },
   blankSpace: {
     flex: 0.1,
@@ -727,4 +733,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AmulTaaza;
+export default AmulBuffalo;
